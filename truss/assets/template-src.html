@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tower Client Edition — Template</title>
+<!--
+  TOWER DOCUMENT DESIGN v2 — CLIENT EDITION TEMPLATE (source)
+  ============================================================
+  This is the authoring source. Build it into a self-contained page with:
+
+      python scripts/tower_v2.py build assets/template-src.html out.html
+      python assets/render.py "$(pwd)/out.html" "Name.pdf"
+      python assets/verify.py "Name.pdf"
+
+  Placeholders the build step fills (written as double-braced tokens in the
+  markup below; not spelled out here so the build does not fill this comment):
+      CSS        the stylesheet with fonts embedded — once, in <head>
+      LOGO_REV   base64 of the reversed (white + orange) logo
+
+  Authoring tags the build step expands into SVG:
+      <t-title size="66">Line one|Line two</t-title>
+      <t-elevation scale="0.108" hats="none|base|c1" annotate="1" pad="34,56,10,40"></t-elevation>
+
+  Every page is a <section class="pg"> with a running header (.hd) and footer
+  (.ft). One idea per page. A page that is 60% full is finished — do not fill it.
+-->
+{{CSS}}
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- COVER — logo, meta, title mark, chrome title, key figure, drawing -->
+<!-- ============================================================ -->
+<section class="pg cover">
+  <div class="cv-top">
+    <img class="logo" src="data:image/png;base64,{{LOGO_REV}}" alt="Tower Architectural Door Systems"/>
+    <div class="cv-meta">Document type<br>Month 2026</div>
+  </div>
+  <div class="cv-hero">
+    <div class="mark"><i></i><b></b></div>
+    <t-title size="66">Document|Title</t-title>
+    <p class="cv-sub">One sentence that says what this document establishes, in the client's language.</p>
+    <div class="cv-rating">
+      <div class="lbl">Key figure label</div>
+      <div class="val">N3 / C1</div>
+      <div class="note">Qualifier · standard or condition that makes the figure true</div>
+    </div>
+  </div>
+  <!-- Replace with <div class="cv-photo"><img src="..."/></div> when a real Tower photo is supplied -->
+  <div class="cv-draw"><t-elevation scale="0.118" hats="none"></t-elevation></div>
+  <div class="ft cv-ft"><span>Tower Architectural Door Systems</span><span>Custom Garage Door Manufacturers</span><span>towerdoors.com.au</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CONTENT PAGE — section label, title, lead, tiles, list, statement -->
+<!-- ============================================================ -->
+<section class="pg">
+  <div class="hd"><span>Document name · Subject</span><span class="pn">02 / 05</span></div>
+  <div class="sl"><em>01</em>Section name</div>
+  <t-title size="38">Two-line|section title</t-title>
+  <p class="lead">The lead paragraph. Three or four sentences at most, 300 weight, never wider than 58 characters. It says what the page establishes and why it matters to the reader.</p>
+  <div class="tiles">
+    <div class="tile"><div class="v">N3 / C1</div><div class="l">Tile label</div></div>
+    <div class="tile"><div class="v">180 <small>km/h</small></div><div class="l">Tile label</div></div>
+    <div class="tile"><div class="v">3</div><div class="l">Tile label</div></div>
+  </div>
+  <div class="sub">Hairline list · big keys</div>
+  <div class="list big">
+    <div class="lr"><div class="k">Key</div><div class="d">Description in 300 weight, dimmed. One or two lines.</div></div>
+    <div class="lr"><div class="k">Key</div><div class="d">Description in 300 weight, dimmed. One or two lines.</div></div>
+  </div>
+  <div class="state">A closing statement in two lines.<br><span>The second line carries the consequence, dimmed.</span></div>
+  <div class="ft"><span>Tower Architectural Door Systems</span><span>Custom Garage Door Manufacturers</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TABLE + DRAWING PAGE — schedule table, product elevation, legend, spec list -->
+<!-- ============================================================ -->
+<section class="pg">
+  <div class="hd"><span>Document name · Subject</span><span class="pn">03 / 05</span></div>
+  <div class="sl"><em>02</em>Schedule</div>
+  <t-title size="38">Table page</t-title>
+  <p class="lead">A short line introducing the table. Build to the schedule and the rating applies.</p>
+  <table class="sched">
+    <tr><th>Column</th><th>Column</th><th>Column</th><th class="r">Figure</th></tr>
+    <tr><td class="k">Row key</td><td>Value</td><td>Value</td><td class="r o">4</td></tr>
+    <tr><td class="k">Row key</td><td>Value</td><td>Value</td><td class="r o">0</td></tr>
+    <tr><td class="k">Row key</td><td>Value</td><td>Two lines of value<br>when the row needs them</td><td class="r o">6</td></tr>
+  </table>
+  <div class="draw small"><t-elevation scale="0.086" hats="c1" pad="6,6,6,6"></t-elevation></div>
+  <div class="legend"><span><i class="sw"></i>Solid legend item</span><span><i class="sw d"></i>Dashed legend item</span></div>
+  <div class="cap">Caption under a drawing: what the viewer is looking at, which way it is viewed, and the qualifier (indicative, to the engineer's detail).</div>
+  <div class="spec">
+    <div class="lr"><div class="k">Spec key</div><div class="d">Spec value · another value</div></div>
+    <div class="lr"><div class="k">Spec key</div><div class="d">Spec value</div></div>
+  </div>
+  <div class="ft"><span>Tower Architectural Door Systems</span><span>Custom Garage Door Manufacturers</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- STEPS + CARD PAGE — numbered hairline list, step row, notched card -->
+<!-- ============================================================ -->
+<section class="pg">
+  <div class="hd"><span>Document name · Subject</span><span class="pn">04 / 05</span></div>
+  <div class="sl"><em>03</em>Process</div>
+  <t-title size="38">From one thing|to the next</t-title>
+  <div class="steprow">
+    <div class="scol"><div class="dot"></div><div class="n">01</div><div class="ct">Step title</div><div class="cd">Two lines on what happens and who does it.</div></div>
+    <div class="scol"><div class="dot"></div><div class="n">02</div><div class="ct">Step title</div><div class="cd">Two lines on what happens and who does it.</div></div>
+    <div class="scol"><div class="dot"></div><div class="n">03</div><div class="ct">Step title</div><div class="cd">Two lines on what happens and who does it.</div></div>
+  </div>
+  <div class="sub">Numbered hairline list</div>
+  <div class="list num">
+    <div class="lr"><div class="k"><em>01</em>Item</div><div class="d">Description.</div></div>
+    <div class="lr"><div class="k"><em>02</em>Item</div><div class="d">Description.</div></div>
+  </div>
+  <div class="card" style="margin-top:34px">
+    <div class="cardt">Card label</div>
+    <div class="cardd">The notched card carries the one paragraph the reader must not miss — an exception, a boundary, an invitation to talk to Tower early.</div>
+  </div>
+  <div class="ft"><span>Tower Architectural Door Systems</span><span>Custom Garage Door Manufacturers</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- BACK PAGE — logo, tagline, contact, references -->
+<!-- ============================================================ -->
+<section class="pg back">
+  <div class="bk-centre">
+    <img class="logo" src="data:image/png;base64,{{LOGO_REV}}" alt="Tower Architectural Door Systems"/>
+    <div class="tag">Custom Garage Door Manufacturers</div>
+    <div class="contact">
+      <a class="ph">1300 004 962</a>
+      <div class="em">sales@towerdoors.com.au</div>
+      <div class="web">towerdoors.com.au</div>
+      <div class="addr">9 Rimmer Road, Landsdale WA 6065</div>
+    </div>
+  </div>
+  <div class="bk-ref">
+    <div class="rr"><div class="rk">Reference</div><div class="rv">Third-party reference, report number, date<br>Availability line</div></div>
+    <div class="rr"><div class="rk">Document</div><div class="rv">Document name · Subject<br>Version · Month 2026<br>Who it is prepared for</div></div>
+  </div>
+  <div class="ft"><span>Tower Architectural Door Systems</span><span>05 / 05</span></div>
+</section>
+
+</body>
+</html>

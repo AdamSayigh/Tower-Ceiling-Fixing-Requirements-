@@ -1,0 +1,154 @@
+/* =====================================================================
+   TOWER DOCUMENT DESIGN v2 — CLIENT EDITION
+   The towerdoors.com.au look brought to A4: pure black, Rubik, chrome
+   titles, notched cards, hairlines. Tokens come from the live site CSS.
+   Do not change the tokens or the typeface.
+   ===================================================================== */
+
+/* Fonts ship in assets/fonts; scripts/tower_v2.py build replaces these
+   with base64-embedded faces so the finished HTML is self-contained. */
+@font-face{font-family:'Rubik';font-weight:300;src:url(fonts/rubik-latin-300-normal.woff2) format('woff2');}
+@font-face{font-family:'Rubik';font-weight:400;src:url(fonts/rubik-latin-400-normal.woff2) format('woff2');}
+@font-face{font-family:'Rubik';font-weight:500;src:url(fonts/rubik-latin-500-normal.woff2) format('woff2');}
+@font-face{font-family:'Rubik';font-weight:600;src:url(fonts/rubik-latin-600-normal.woff2) format('woff2');}
+@font-face{font-family:'Rubik';font-weight:700;src:url(fonts/rubik-latin-700-normal.woff2) format('woff2');}
+@font-face{font-family:'Poppins';font-weight:500;src:url(fonts/poppins-latin-500-normal.woff2) format('woff2');}
+
+:root{
+  --black:#000;
+  --orange:#DA5E2D;        /* site orange — rating, hats, phone, section numbers */
+  --orange-lt:#FF8251;     /* corner arcs, dashed hat outlines */
+  --orange-dk:#743218;
+  --text:#E7E7F9;          /* cool off-white body and headings */
+  --dim:rgba(231,231,249,.55);
+  --dim2:rgba(231,231,249,.36);
+  --line:rgba(255,255,255,.22);
+  --line-soft:rgba(255,255,255,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:A4;margin:0}
+html,body{background:#000}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--text);-webkit-print-color-adjust:exact;print-color-adjust:exact;
+  font-size:12.5px;line-height:1.55;font-weight:300}
+
+/* ---------- page shell ---------- */
+.pg{position:relative;width:210mm;height:297mm;overflow:hidden;page-break-after:always;
+  background:#000 radial-gradient(62% 36% at 28% 0%,rgba(218,94,45,.20),transparent 72%);
+  padding:20mm 20mm 20mm}
+.pg:last-child{page-break-after:auto}
+.hd{display:flex;justify-content:space-between;align-items:baseline;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:46px}
+.hd .pn{letter-spacing:.14em;color:var(--text)}
+.ft{position:absolute;left:20mm;right:20mm;bottom:14mm;display:flex;justify-content:space-between;padding-top:12px;
+  border-top:1px solid var(--line-soft);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+
+/* ---------- section label + title ---------- */
+.sl{display:flex;align-items:center;gap:14px;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text);margin-bottom:18px}
+.sl em{font-style:normal;color:var(--orange);font-weight:500}
+.sl::before{content:"";width:34px;border-top:1.5px dashed var(--orange)}
+/* Titles are SVG (see scripts/tower_v2.py). .h2 is a plain fallback only. */
+.h2{font-weight:500;font-size:38px;line-height:1.02;text-transform:uppercase;color:#fff;margin-bottom:22px}
+
+/* ---------- copy ---------- */
+.lead{font-weight:300;font-size:13.5px;line-height:1.62;color:var(--text);max-width:58ch;margin-bottom:34px}
+.sub{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim);margin:30px 0 4px}
+.state{margin-top:56px;font-weight:300;font-size:22px;line-height:1.35;color:#fff;max-width:34ch}
+.state span{color:var(--dim)}
+.cap{font-size:10px;color:var(--dim);line-height:1.55;max-width:70ch;margin-bottom:26px}
+
+/* ---------- hairline lists ---------- */
+.list .lr{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:15px 0;border-top:1px solid var(--line-soft)}
+.list .lr:last-child{border-bottom:1px solid var(--line-soft)}
+.lr .k{font-weight:500;font-size:13px;color:#fff;line-height:1.4}
+.lr .d{font-weight:300;font-size:12.5px;color:var(--dim);line-height:1.55}
+.list.big .lr{padding:18px 0}
+.list.big .lr .k{font-size:19px;line-height:1.2}
+.list.num .lr{grid-template-columns:210px 1fr}
+.list.num .k em{font-style:normal;color:var(--orange);font-weight:500;font-size:10px;letter-spacing:.14em;margin-right:12px;position:relative;top:-1px}
+.spec .lr{display:grid;grid-template-columns:140px 1fr;gap:18px;padding:15px 0;border-top:1px solid var(--line-soft)}
+.spec .lr:last-child{border-bottom:1px solid var(--line-soft)}
+
+/* ---------- stat tiles (notched) ---------- */
+.tiles{display:flex;gap:14px;margin-bottom:10px}
+.tile{position:relative;flex:1;border:1px solid var(--line);border-radius:22px;padding:24px 22px 20px;background:rgba(0,0,0,.6)}
+.tile::before,.tile::after{content:"";position:absolute;width:32px;height:32px;pointer-events:none}
+.tile::before{top:-1px;right:-1px;border-top:1.5px solid var(--orange-lt);border-right:1.5px solid var(--orange-lt);border-top-right-radius:22px}
+.tile::after{bottom:-1px;left:-1px;border-bottom:1.5px solid var(--orange-lt);border-left:1.5px solid var(--orange-lt);border-bottom-left-radius:22px}
+.tile .v{font-weight:500;font-size:30px;line-height:1;color:#fff;letter-spacing:-.01em}
+.tile .v small{font-size:14px;font-weight:400;color:var(--dim);letter-spacing:0;margin-left:2px}
+.tile .l{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:12px;line-height:1.5}
+
+/* ---------- drawings ---------- */
+.draw{margin:26px 0 10px}
+.draw.small{width:88%;margin:34px auto 12px}
+.legend{display:flex;gap:26px;font-size:9.5px;color:var(--dim);letter-spacing:.06em;margin:4px 0 10px;justify-content:center}
+.legend .sw{display:inline-block;width:22px;height:6px;background:var(--orange);vertical-align:middle;margin-right:8px}
+.legend .sw.d{background:none;border:1.5px dashed var(--orange-lt);height:5px}
+
+/* ---------- table ---------- */
+table.sched{width:100%;border-collapse:collapse;margin:4px 0 6px}
+.sched th{font-weight:400;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);text-align:left;padding:0 0 12px;border-bottom:1px solid var(--line)}
+.sched td{padding:16px 14px 16px 0;border-bottom:1px solid var(--line-soft);font-weight:300;font-size:12.5px;color:var(--text);vertical-align:top;line-height:1.5}
+.sched td.k{font-weight:500;color:#fff;width:22%}
+.sched .r{text-align:right;padding-right:0}
+.sched td.o{color:var(--orange);font-weight:500;font-size:18px;line-height:1.1}
+
+/* ---------- steps ---------- */
+.steprow{position:relative;display:flex;gap:22px;margin:40px 0 10px}
+.steprow::before{content:"";position:absolute;left:16.67%;right:16.67%;top:17px;border-top:1.5px dotted var(--orange)}
+.scol{flex:1;text-align:center;position:relative}
+.scol .dot{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--orange);display:grid;place-items:center;margin:0 auto 10px;background:#000}
+.scol .dot::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--orange)}
+.scol .n{font-weight:500;font-size:10px;letter-spacing:.2em;color:var(--orange);margin-bottom:16px}
+.scol .ct{font-weight:500;font-size:13.5px;color:#fff;margin-bottom:8px;line-height:1.3}
+.scol .cd{font-weight:300;font-size:11.5px;color:var(--dim);line-height:1.6;padding:0 6px}
+
+/* ---------- notched card ---------- */
+.card{position:relative;border:1px solid var(--line);border-radius:28px;padding:30px 34px;background:rgba(0,0,0,.6)}
+.card::before,.card::after{content:"";position:absolute;width:40px;height:40px;pointer-events:none}
+.card::before{top:-1px;right:-1px;border-top:1.5px solid var(--orange-lt);border-right:1.5px solid var(--orange-lt);border-top-right-radius:28px}
+.card::after{bottom:-1px;left:-1px;border-bottom:1.5px solid var(--orange-lt);border-left:1.5px solid var(--orange-lt);border-bottom-left-radius:28px}
+.cardt{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.cardd{font-weight:300;font-size:13px;color:var(--text);line-height:1.6;max-width:62ch}
+
+/* ---------- cover ---------- */
+.cover{padding:18mm 20mm 20mm;display:flex;flex-direction:column}
+.cv-top{display:flex;justify-content:space-between;align-items:flex-start}
+.cover .logo{height:88px;width:auto;display:block}
+.cv-meta{text-align:right;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);line-height:1.9;padding-top:6px}
+.cv-hero{margin-top:70px}
+.mark{display:flex;align-items:center;margin-bottom:22px}
+.mark i{display:block;width:52px;border-top:1.5px dashed var(--orange)}
+.mark b{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--orange);display:grid;place-items:center;margin-left:-1px}
+.mark b::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--orange)}
+.cv-sub{font-weight:300;font-size:15.5px;color:var(--text);max-width:42ch;margin-top:22px;line-height:1.5}
+.cv-rating{margin-top:44px}
+.cv-rating .lbl{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.cv-rating .val{font-weight:500;font-size:46px;line-height:1;color:var(--orange);letter-spacing:-.01em}
+.cv-rating .note{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:12px}
+.cv-draw{margin-top:auto;margin-bottom:34px;opacity:.9}
+.cv-photo{margin-top:auto;margin-bottom:34px;border-radius:16px;overflow:hidden;aspect-ratio:16/9}
+.cv-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.cv-ft{position:static;margin:0;padding-top:12px}
+.cv-ft span:nth-child(2){flex:1;text-align:center}
+
+/* ---------- back page ---------- */
+.back{display:flex;flex-direction:column;justify-content:center;align-items:center}
+.bk-centre{text-align:center;margin-top:auto}
+.back .logo{height:120px;width:auto;display:block;margin:0 auto 18px}
+.back .tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:46px}
+.contact .ph{display:block;font-weight:300;font-size:26px;color:var(--orange);letter-spacing:.02em;margin-bottom:10px}
+.contact .em{font-weight:500;font-size:14px;color:#fff;margin-bottom:4px}
+.contact .web{font-weight:300;font-size:13px;color:var(--text);margin-bottom:14px}
+.contact .addr{font-weight:300;font-size:11px;color:var(--dim);letter-spacing:.06em}
+.bk-ref{margin-top:auto;display:flex;gap:40px;width:100%;padding-top:22px;border-top:1px solid var(--line-soft);margin-bottom:30px}
+.rr{flex:1}
+.rk{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.rv{font-weight:300;font-size:11px;color:var(--dim);line-height:1.65}
+.back .ft{position:absolute}
+
+/* ---------- photography (when real Tower photos are supplied) ---------- */
+.photo{border-radius:16px;overflow:hidden;margin:10px 0 14px}
+.photo img{width:100%;height:auto;display:block}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0 14px}
+.photo-grid .photo{margin:0;aspect-ratio:5/4}
+.photo-grid img{height:100%;object-fit:cover}
