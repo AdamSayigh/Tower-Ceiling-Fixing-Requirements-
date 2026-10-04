@@ -1,0 +1,11 @@
+node_modules/
+dist/
+frames/
+frames-short/
+film-stills*/
+shots/
+out/
+__pycache__/
+documents/*/doc.html
+documents/*/out.html
+*.mp4
