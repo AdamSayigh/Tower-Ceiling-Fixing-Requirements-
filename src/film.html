@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<title>Ceiling Fixing · Truss Roof · Film</title>
+<style>
+@font-face{font-family:'Rubik';font-weight:300;src:url(data:font/woff2;base64,{{RUBIK300}}) format('woff2')}
+@font-face{font-family:'Rubik';font-weight:400;src:url(data:font/woff2;base64,{{RUBIK400}}) format('woff2')}
+@font-face{font-family:'Rubik';font-weight:500;src:url(data:font/woff2;base64,{{RUBIK500}}) format('woff2')}
+@font-face{font-family:'Rubik';font-weight:600;src:url(data:font/woff2;base64,{{RUBIK600}}) format('woff2')}
+@font-face{font-family:'Poppins';font-weight:500;src:url(data:font/woff2;base64,{{POPPINS500}}) format('woff2')}
+/* Film frames are captured one at a time: no CSS motion, every change is driven from the virtual clock. */
+*{box-sizing:border-box;margin:0;padding:0;transition:none!important;animation:none!important}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+body{position:relative;font-family:'Rubik',sans-serif;color:#E7E7F9;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+#gl{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
+.fx{position:absolute;inset:0;pointer-events:none}
+#glow{z-index:1;background:radial-gradient(58% 42% at 26% 0%,rgba(218,94,45,.2),transparent 72%)}
+#vignette{z-index:1;background:radial-gradient(135% 100% at 58% 46%,transparent 52%,rgba(0,0,0,.6) 100%)}
+#scrimP{z-index:2;opacity:0;background:linear-gradient(90deg,rgba(0,0,0,.97) 0%,rgba(0,0,0,.94) 33%,rgba(0,0,0,.62) 40.5%,rgba(0,0,0,0) 50%)}
+#scrimH{z-index:2;background:linear-gradient(90deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.62) 30%,rgba(0,0,0,0) 54%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 42%)}
+#dims{position:absolute;inset:0;width:1920px;height:1080px;z-index:3;overflow:visible}
+#dims .dl{stroke:rgba(231,231,249,.82);stroke-width:1.6}
+#dims .tk{stroke:#fff;stroke-width:2.3}
+#dims .ex{stroke:rgba(231,231,249,.38);stroke-width:1.2;stroke-dasharray:5 5}
+#dims .leader{stroke:rgba(231,231,249,.55);stroke-width:1.3}
+#dims .ldot{fill:#fff}
+#dims text{font:500 19px 'Rubik';letter-spacing:.06em;fill:#fff;paint-order:stroke;stroke:#000;stroke-width:6px;stroke-linejoin:round;text-anchor:middle;dominant-baseline:central}
+#labels{position:absolute;inset:0;z-index:4;overflow:hidden}
+.lbl{position:absolute;left:0;top:0;white-space:nowrap;font:500 15px/1 'Rubik';letter-spacing:.17em;text-transform:uppercase;color:#E7E7F9;
+  padding:10px 14px 9px;border-radius:11px;background:rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.18)}
+.lbl.pad{background:#DA5E2D;color:#000;border-color:#FF8251;letter-spacing:.03em;text-align:center;padding:8px 13px 7px;box-shadow:0 0 28px rgba(218,94,45,.5)}
+.lbl.pad b{display:block;font:600 22px/1 'Rubik'}
+.lbl.pad small{display:block;font:500 12.5px/1.3 'Rubik';letter-spacing:.03em;margin-top:3px;text-transform:none}
+.lbl.ghost{color:rgba(231,231,249,.75);background:rgba(0,0,0,.6);border-style:dashed}
+.lbl.warn{color:#FF8251;border-color:rgba(255,130,81,.8);background:rgba(20,6,0,.88)}
+.lbl.warnok{color:#000;background:#E7E7F9;border-color:#fff}
+.lbl.load{background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;color:#FF8251}
+.lbl.load i{position:relative;display:block;width:4px;height:58px;background:linear-gradient(rgba(255,130,81,0),#FF8251)}
+.lbl.load i::after{content:"";position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);border-left:12px solid transparent;border-right:12px solid transparent;border-top:19px solid #FF8251}
+.lbl.load span{margin-top:26px;padding:10px 14px 9px;border-radius:11px;background:rgba(20,6,0,.88);border:1px solid rgba(255,130,81,.8)}
+#finder{position:absolute;left:0;top:0;width:10px;height:10px;z-index:4;opacity:0}
+#finder i{position:absolute;width:26px;height:26px;border:0 solid #FF8251}
+#finder .a{top:0;left:0;border-width:3px 0 0 3px;border-top-left-radius:8px}
+#finder .b{top:0;right:0;border-width:3px 3px 0 0;border-top-right-radius:8px}
+#finder .c{bottom:0;left:0;border-width:0 0 3px 3px;border-bottom-left-radius:8px}
+#finder .d{bottom:0;right:0;border-width:0 3px 3px 0;border-bottom-right-radius:8px}
+#finder span{position:absolute;left:0;top:-42px;font:500 14px 'Rubik';letter-spacing:.2em;text-transform:uppercase;color:#FF8251;white-space:nowrap;background:rgba(0,0,0,.84);border:1px solid rgba(255,130,81,.5);border-radius:9px;padding:8px 12px 7px}
+#finder span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:#DA5E2D;margin-right:11px;vertical-align:0}
+#flash{z-index:6;background:#fff;opacity:0}
+.bars i{position:absolute;left:0;right:0;height:96px;background:#000;z-index:6}
+.bars .t{top:0}.bars .b{bottom:0}
+
+/* header */
+.hdr{position:absolute;top:0;left:0;right:0;height:120px;z-index:7;display:flex;align-items:center;padding:0 72px}
+.brand{display:flex;align-items:center;gap:20px}
+.brand img{height:64px;width:auto;display:block}
+.brand .tag{font:400 12.5px/1.6 'Rubik';letter-spacing:.28em;text-transform:uppercase;color:rgba(231,231,249,.55);border-left:1px solid rgba(255,255,255,.2);padding-left:20px;max-width:330px}
+#prog{position:absolute;left:50%;top:44px;transform:translateX(-50%);display:flex;gap:8px;opacity:0}
+.seg{width:66px;display:flex;flex-direction:column;align-items:center;gap:11px;font:500 12.5px 'Rubik';letter-spacing:.14em;color:rgba(231,231,249,.38)}
+.seg i{display:block;width:100%;height:3px;border-radius:2px;background:rgba(255,255,255,.18)}
+.seg.done{color:rgba(231,231,249,.65)}.seg.done i{background:rgba(231,231,249,.65)}
+.seg.on{color:#DA5E2D}.seg.on i{background:#DA5E2D}
+#src{position:absolute;right:72px;bottom:42px;z-index:7;font:400 13px 'Rubik';letter-spacing:.24em;text-transform:uppercase;color:rgba(231,231,249,.55);opacity:0}
+
+/* captions */
+#captions{position:absolute;inset:0;z-index:5}
+.blk{position:absolute}
+.blk.col{left:104px;top:156px;width:650px}
+.blk.hero{left:112px;bottom:150px;width:900px}
+.sl{display:flex;align-items:center;gap:16px;font:400 15.5px/1 'Rubik';letter-spacing:.3em;text-transform:uppercase;color:#E7E7F9;margin-bottom:24px}
+.sl::before{content:"";width:46px;border-top:2px dashed #DA5E2D}
+.sl em{font-style:normal;color:#DA5E2D;font-weight:500}
+.sl .of{color:rgba(231,231,249,.5);margin-left:-6px}
+.ttl{font:500 60px/1.03 'Rubik';text-transform:uppercase;letter-spacing:-.005em;margin-bottom:24px;
+  background:linear-gradient(89deg,#000 -42%,#fff 49%,#000 136%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.lead{font:400 23px/1.55 'Rubik';color:#E7E7F9;margin-bottom:22px}
+.body{font:400 20px/1.55 'Rubik';color:rgba(231,231,249,.72);margin-top:22px}
+.fine{font:400 16px/1.5 'Rubik';color:rgba(231,231,249,.55);margin-top:20px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+.tile{border:1.5px solid rgba(255,255,255,.22);border-radius:24px;padding:22px 20px 18px;background:rgba(0,0,0,.6)}
+.tile .v{font:500 42px/1 'Rubik';color:#fff}
+.tile .v small{font-size:20px;color:rgba(231,231,249,.55);margin-left:4px;font-weight:400}
+.tile .l{font:400 12.5px/1.45 'Rubik';letter-spacing:.15em;text-transform:uppercase;color:rgba(231,231,249,.58);margin-top:14px}
+.list .lr,.spec .lr{display:grid;grid-template-columns:140px 1fr;gap:20px;padding:15px 0;border-top:1px solid rgba(255,255,255,.12)}
+.list .lr:last-child,.spec .lr:last-child{border-bottom:1px solid rgba(255,255,255,.12)}
+.lr .k{font:500 20px/1.4 'Rubik';color:#fff}
+.lr .d{font:400 20px/1.5 'Rubik';color:rgba(231,231,249,.74)}
+.list.num .lr{grid-template-columns:1fr;gap:6px;padding:14px 0}
+.list.num .k em{font-style:normal;color:#DA5E2D;font-weight:500;font-size:14.5px;letter-spacing:.14em;margin-right:14px;position:relative;top:-2px}
+.subs .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{display:inline-flex;align-items:center;gap:10px;height:42px;padding:0 17px;border:1px solid rgba(255,130,81,.34);border-radius:12px;color:#DA5E2D;font:500 13.5px 'Rubik';letter-spacing:.08em;text-transform:uppercase}
+.chip span{opacity:.7}
+.chip.on{background:#DA5E2D;color:#000;border-color:#DA5E2D}
+.chip.done{color:rgba(231,231,249,.55);border-color:rgba(255,255,255,.16)}
+.cards{display:grid}
+.card{grid-area:1/1;position:relative;border:1.5px solid rgba(255,255,255,.22);border-radius:28px;padding:22px 28px 24px;background:rgba(0,0,0,.7);opacity:0}
+.card.bad{border-color:rgba(255,130,81,.5)}
+.card .ck{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.card .ck span{font:500 13.5px 'Rubik';letter-spacing:.2em;text-transform:uppercase;color:#DA5E2D;border:1px solid rgba(255,130,81,.34);border-radius:8px;padding:5px 9px 4px}
+.tag{font:500 12.5px 'Rubik';font-style:normal;letter-spacing:.2em;text-transform:uppercase;padding:6px 10px 5px;border-radius:8px}
+.tag.ok{color:#000;background:#E7E7F9}
+.tag.bad{color:#FF8251;border:1px solid rgba(255,130,81,.7)}
+.card .ct{font:500 27px/1.25 'Rubik';color:#fff;margin-bottom:8px}
+.card .cd{font:400 20px/1.55 'Rubik';color:rgba(231,231,249,.78)}
+.steps3{list-style:none}
+.steps3 li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:15px 0;border-top:1px solid rgba(255,255,255,.12);font:400 20px/1.55 'Rubik';color:rgba(231,231,249,.74)}
+.steps3 li:last-child{border-bottom:1px solid rgba(255,255,255,.12)}
+.steps3 b{font:500 15px/2 'Rubik';color:#DA5E2D;letter-spacing:.14em}
+.steps3 strong{color:#fff;font-weight:500}
+.eyebrow{display:flex;align-items:center;gap:18px;font:400 15px 'Rubik';letter-spacing:.32em;text-transform:uppercase;color:rgba(231,231,249,.78);margin-bottom:26px}
+.mark{display:flex;align-items:center;flex:none}
+.mark i{display:block;width:58px;border-top:2px dashed #DA5E2D}
+.mark b{width:26px;height:26px;border-radius:50%;border:2px solid #DA5E2D;display:grid;place-items:center}
+.mark b::after{content:"";width:13px;height:13px;border-radius:50%;background:#DA5E2D}
+.hero-h{font:500 86px/1.1 'Poppins';color:#fff;letter-spacing:-.01em}
+.hero-sub{font:400 24px/1.55 'Rubik';color:rgba(231,231,249,.86);max-width:32ch;margin-top:22px}
+.kfig{margin-top:32px}
+.kfig .kl{font:400 14px 'Rubik';letter-spacing:.28em;text-transform:uppercase;color:rgba(231,231,249,.58);margin-bottom:12px}
+.kfig .kv{font:500 74px/1 'Rubik';color:#DA5E2D;letter-spacing:-.01em}
+.meta{font:400 14.5px 'Rubik';letter-spacing:.24em;text-transform:uppercase;color:rgba(231,231,249,.58);margin-top:24px}
+.blk.end .hero-h{font-size:76px}
+.blk.hero.short .hero-h{font-size:70px;line-height:1.08}
+.blk.hero.short .hero-sub{margin-top:18px}
+.endcard{margin-top:28px;border:1.5px solid rgba(255,255,255,.22);border-radius:30px;padding:24px 30px 26px;background:rgba(0,0,0,.7);max-width:780px;position:relative}
+.cardt{font:400 13.5px 'Rubik';letter-spacing:.28em;text-transform:uppercase;color:#DA5E2D;margin-bottom:12px}
+.endcard p{font:400 20px/1.6 'Rubik';color:#E7E7F9}
+.notch::before,.notch::after{content:"";position:absolute;width:44px;height:44px}
+.notch::before{top:-1.5px;right:-1.5px;border-top:2px solid #FF8251;border-right:2px solid #FF8251;border-top-right-radius:30px}
+.notch::after{bottom:-1.5px;left:-1.5px;border-bottom:2px solid #FF8251;border-left:2px solid #FF8251;border-bottom-left-radius:30px}
+.contact{display:flex;align-items:baseline;gap:30px;margin-top:26px}
+.contact .ph{color:#DA5E2D;font:300 34px 'Rubik'}
+.contact .em{color:#fff;font:500 22px 'Rubik'}
+.contact .web{color:rgba(231,231,249,.62);font:400 18px 'Rubik';letter-spacing:.06em}
+.blk.end .fine{max-width:780px}
+
+/* closing card */
+#black{position:absolute;inset:0;z-index:9;background:#000;opacity:0}
+#logocard{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;opacity:0}
+#logocard img{height:230px;width:auto;display:block}
+#logocard .tag{font:400 17px 'Rubik';letter-spacing:.34em;text-transform:uppercase;color:rgba(231,231,249,.6)}
+#logocard .ph{font:300 30px 'Rubik';color:#DA5E2D;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="glow" class="fx"></div>
+<div id="vignette" class="fx"></div>
+<div id="scrimP" class="fx"></div>
+<div id="scrimH" class="fx"></div>
+<svg id="dims"></svg>
+<div id="labels"></div>
+<div id="finder"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i><span></span></div>
+<div id="captions"></div>
+<div id="flash" class="fx"></div>
+<div class="bars"><i class="t"></i><i class="b"></i></div>
+<header class="hdr">
+  <div class="brand"><img src="data:image/png;base64,{{LOGO}}" alt=""><span class="tag">Custom Garage Door Manufacturers</span></div>
+  <div id="prog"></div>
+</header>
+<div id="src">Ceiling Fixing · Truss Roof · Rev C</div>
+<div id="black"></div>
+<div id="logocard"><img src="data:image/png;base64,{{LOGO}}" alt=""><div class="tag">Custom Garage Door Manufacturers</div><div class="ph">1300 004 962 · towerdoors.com.au</div></div>
+<script>{{SCRIPT}}</script>
+</body>
+</html>
